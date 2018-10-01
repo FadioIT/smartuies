@@ -1,0 +1,16 @@
+{
+  "name": "@fadioit/smartuies",
+  "version": "0.1.0",
+  "description": "Fadio IT’s components packages",
+  "license": "MIT",
+  "peerDependencies": {
+    "prop-types": "^15.6.2",
+    "react": "^16.5.2",
+    "react-dom": "^16.5.2"
+  },
+  "devDependencies": {
+    "prop-types": "^15.6.2",
+    "react": "^16.5.2",
+    "react-dom": "^16.5.2"
+  }
+}
