@@ -1,0 +1,9 @@
+{
+  "parser": "babel-eslint",
+  "extends": "@fadioit/react",
+  "settings": {
+    "react": {
+      "version": "16.5.2"
+    }
+  }
+}

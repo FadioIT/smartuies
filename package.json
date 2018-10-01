@@ -3,12 +3,33 @@
   "version": "0.1.0",
   "description": "Fadio IT’s components packages",
   "license": "MIT",
+  "scripts": {
+    "lint": "eslint ./ --fix"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.js": [
+      "eslint --fix --max-warnings=0"
+    ]
+  },
   "peerDependencies": {
     "prop-types": "^15.6.2",
     "react": "^16.5.2",
     "react-dom": "^16.5.2"
   },
   "devDependencies": {
+    "@babel/core": "^7.1.2",
+    "@babel/plugin-proposal-class-properties": "^7.1.0",
+    "@babel/preset-env": "^7.1.0",
+    "@babel/preset-react": "^7.0.0",
+    "@fadioit/eslint-config-react": "^0.2.1",
+    "babel-eslint": "^10.0.1",
+    "husky": "^1.0.1",
+    "lint-staged": "^7.3.0",
     "prop-types": "^15.6.2",
     "react": "^16.5.2",
     "react-dom": "^16.5.2"
