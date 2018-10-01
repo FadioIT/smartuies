@@ -4,7 +4,8 @@
   "description": "Fadio IT’s components packages",
   "license": "MIT",
   "scripts": {
-    "lint": "eslint ./ --fix"
+    "lint": "eslint ./ --fix",
+    "storybook": "start-storybook -p 9001 -c .storybook"
   },
   "husky": {
     "hooks": {
@@ -27,7 +28,13 @@
     "@babel/preset-env": "^7.1.0",
     "@babel/preset-react": "^7.0.0",
     "@fadioit/eslint-config-react": "^0.2.1",
+    "@storybook/addon-actions": "^3.4.11",
+    "@storybook/addon-knobs": "^3.4.11",
+    "@storybook/cli": "^v4.0.0-alpha.23",
+    "@storybook/core": "^v4.0.0-alpha.23",
+    "@storybook/react": "^v4.0.0-alpha.23",
     "babel-eslint": "^10.0.1",
+    "babel-loader": "^8.0.4",
     "husky": "^1.0.1",
     "lint-staged": "^7.3.0",
     "prop-types": "^15.6.2",
