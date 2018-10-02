@@ -5,6 +5,7 @@
   "license": "MIT",
   "scripts": {
     "lint": "eslint ./ --fix",
+    "test": "jest",
     "storybook": "start-storybook -p 9001 -c .storybook"
   },
   "husky": {
@@ -33,9 +34,14 @@
     "@storybook/cli": "^v4.0.0-alpha.23",
     "@storybook/core": "^v4.0.0-alpha.23",
     "@storybook/react": "^v4.0.0-alpha.23",
+    "babel-core": "^7.0.0-bridge",
     "babel-eslint": "^10.0.1",
+    "babel-jest": "^23.6.0",
     "babel-loader": "^8.0.4",
+    "enzyme": "^3.6.0",
+    "enzyme-adapter-react-16": "^1.5.0",
     "husky": "^1.0.1",
+    "jest": "^23.6.0",
     "lint-staged": "^7.3.0",
     "prop-types": "^15.6.2",
     "react": "^16.5.2",

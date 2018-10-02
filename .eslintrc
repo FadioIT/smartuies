@@ -1,6 +1,12 @@
 {
   "parser": "babel-eslint",
   "extends": "@fadioit/react",
+  "env": {
+    "node": true,
+    "es6": true,
+    "browser": true,
+    "jest": true
+  },
   "settings": {
     "react": {
       "version": "16.5.2"
