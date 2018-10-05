@@ -47,3 +47,31 @@ export const Window = React.forwardRef((props, ref) => (
     {...props}
   />
 ));
+
+export const PanelTitle = React.forwardRef(({ open, ...props }, ref) => (
+  <div
+    ref={ref}
+    style={{
+      background: '#444',
+      border: '1px solid transparent',
+      borderRadius: open ? '2px 2px 0 0' : 2,
+      color: '#FFF',
+      cursor: 'pointer',
+      padding: '8px 16px',
+    }}
+    {...props}
+  />
+));
+
+export const Panel = React.forwardRef((props, ref) => (
+  <div
+    ref={ref}
+    style={{
+      border: '1px solid rgba(0,0,0,.15)',
+      borderBottomLeftRadius: 2,
+      borderBottomRightRadius: 2,
+      padding: 16,
+    }}
+    {...props}
+  />
+));
