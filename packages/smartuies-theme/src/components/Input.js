@@ -1,19 +1,41 @@
 import React from 'react';
+import { StyleSheet, css } from '../utils/styleUtils';
+import { colors, fonts, fontSizes } from '../theme';
 
-const Input = React.forwardRef((props, ref) => (
+const Input = React.forwardRef(({ className, disabled, ...props }, ref) => (
   <input
     ref={ref}
-    style={{
-      background: '#F7F7F7',
-      border: '1px solid rgba(0,0,0,.15)',
-      borderRadius: 3,
-      boxShadow: 'inset 0 1px 2px rgba(0,0,0,.15)',
-      color: '#444',
-      fontSize: '14px',
-      padding: '8px 16px',
-    }}
+    disabled={disabled}
+    className={css(styles.input, disabled && styles.disabled, className)}
     {...props}
   />
 ));
 
 export default Input;
+
+const styles = StyleSheet.create({
+  input: {
+    background: '#F2F2F2',
+    border: 'none',
+    borderRadius: 3,
+    color: '#444',
+    fontFamily: fonts.normal,
+    fontSize: fontSizes.normal,
+    minWidth: 0,
+    padding: 8,
+    transition: 'all .2s',
+    '&:placeholder': {
+      color: '#888',
+    },
+    '&:hover': {
+      background: '#E9E9E9',
+    },
+    '&:focus': {
+      outline: 'none',
+      background: '#FFF',
+      boxShadow: `0 0 0 1px ${colors.primaryLighter}, inset 0 0 0 1px ${
+        colors.primaryLighter
+      }`,
+    },
+  },
+});

@@ -4,7 +4,7 @@ import { DropDownButton, themeComponent } from '@fadioit/smartuies';
 import Input from './Input';
 
 const renderButton = ({ buttonRef, onToggle, open, ...props }) => (
-  <Input ref={buttonRef} onFocus={!open && onToggle} {...props} />
+  <Input ref={buttonRef} onFocus={open ? undefined : onToggle} {...props} />
 );
 renderButton.propTypes = {
   buttonRef: PropTypes.any,
