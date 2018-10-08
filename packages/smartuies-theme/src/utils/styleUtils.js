@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import { css } from 'react-emotion';
 
 export const StyleSheet = {
@@ -7,5 +8,11 @@ export const StyleSheet = {
       return result;
     }, {}),
 };
+
+export const classNamePropType = PropTypes.oneOfType([
+  PropTypes.string,
+  PropTypes.object,
+  PropTypes.array,
+]);
 
 export { css };
