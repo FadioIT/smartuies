@@ -1,14 +1,15 @@
 {
-  "name": "@fadioit/smartuies",
-  "version": "0.1.0",
-  "description": "Fadio IT’s components packages",
-  "license": "MIT",
-  "main": "build/index",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
   "scripts": {
+    "build": "lerna run build",
+    "watch": "yarn workspace @fadioit/smartuies watch & yarn workspace @fadioit/smartuies-theme storybook",
+    "validate": "yarn lint && yarn test",
+    "test": "lerna exec --concurrency 1 -- yarn test",
     "lint": "eslint ./ --fix",
-    "test": "jest",
-    "build": "[ -e build ] && rm -rf build; mkdir build && babel src --out-dir build",
-    "storybook": "start-storybook -p 9001 -c .storybook"
+    "prepublish": "yarn build"
   },
   "husky": {
     "hooks": {
@@ -21,34 +22,11 @@
       "eslint --fix --max-warnings=0"
     ]
   },
-  "peerDependencies": {
-    "prop-types": "^15.6.2",
-    "react": "^16.5.2",
-    "react-dom": "^16.5.2"
-  },
   "devDependencies": {
-    "@babel/cli": "^7.1.2",
-    "@babel/core": "^7.1.2",
-    "@babel/plugin-proposal-class-properties": "^7.1.0",
-    "@babel/preset-env": "^7.1.0",
-    "@babel/preset-react": "^7.0.0",
     "@fadioit/eslint-config-react": "^0.2.1",
-    "@storybook/addon-actions": "^3.4.11",
-    "@storybook/addon-knobs": "^3.4.11",
-    "@storybook/cli": "^v4.0.0-alpha.23",
-    "@storybook/core": "^v4.0.0-alpha.23",
-    "@storybook/react": "^v4.0.0-alpha.23",
-    "babel-core": "^7.0.0-bridge",
     "babel-eslint": "^10.0.1",
-    "babel-jest": "^23.6.0",
-    "babel-loader": "^8.0.4",
-    "enzyme": "^3.6.0",
-    "enzyme-adapter-react-16": "^1.5.0",
     "husky": "^1.0.1",
-    "jest": "^23.6.0",
-    "lint-staged": "^7.3.0",
-    "prop-types": "^15.6.2",
-    "react": "^16.5.2",
-    "react-dom": "^16.5.2"
+    "lerna": "^3.4.1",
+    "lint-staged": "^7.3.0"
   }
 }

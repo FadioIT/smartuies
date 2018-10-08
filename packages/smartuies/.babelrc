@@ -1,0 +1,12 @@
+{
+  "presets": ["@babel/preset-env", "@babel/preset-react"],
+  "plugins": ["@babel/plugin-proposal-class-properties"],
+  "env": {
+    "production": {
+      "ignore": ["**/__tests__", "**/*.test.js", "**/__mocks__", "**/*.mock.js"]
+    },
+    "development": {
+      "ignore": ["**/__tests__", "**/*.test.js", "**/__mocks__", "**/*.mock.js"]
+    }
+  }
+}

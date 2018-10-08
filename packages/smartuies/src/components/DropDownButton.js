@@ -68,6 +68,7 @@ class DropDownButton extends React.Component {
         {...props}
         displayPopUp={open}
         anchor={renderButton({
+          ...props,
           buttonRef: this.buttonRef,
           onToggle: this.onToggle,
           open,

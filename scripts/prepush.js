@@ -19,5 +19,5 @@ const controlUncommittedFile = async () => {
 
 (async () => {
   await controlUncommittedFile();
-  await spawn('yarn', ['test']);
+  await spawn('yarn', ['validate']);
 })();

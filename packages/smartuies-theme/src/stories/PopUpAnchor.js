@@ -1,9 +1,11 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
 import { withKnobs, boolean, select } from '@storybook/addon-knobs';
-import { Button, Window } from '../utils/storyBookUtils';
+import { PopUpAnchor } from '@fadioit/smartuies';
+import { Window } from '../utils/storyBookUtils';
+import Button from '../components/Button';
 
-import PopUpAnchor, { PopUpPosition } from '../components/PopUpAnchor';
+const { positions } = PopUpAnchor;
 
 storiesOf('PopUpAnchor', module)
   .addDecorator(withKnobs)
@@ -17,13 +19,13 @@ storiesOf('PopUpAnchor', module)
     const popUpPosition = select(
       'popUpPosition',
       {
-        [PopUpPosition.LEFT]: 'Left',
-        [PopUpPosition.RIGHT]: 'Right',
-        [PopUpPosition.ABOVE]: 'Above',
-        [PopUpPosition.BELOW]: 'Below',
-        [PopUpPosition.TOP_LEFT]: 'Top left',
+        [positions.LEFT]: 'Left',
+        [positions.RIGHT]: 'Right',
+        [positions.ABOVE]: 'Above',
+        [positions.BELOW]: 'Below',
+        [positions.TOP_LEFT]: 'Top left',
       },
-      PopUpPosition.BELOW,
+      positions.BELOW,
     );
 
     return (

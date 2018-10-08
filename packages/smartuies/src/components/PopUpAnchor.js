@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
 
-export const PopUpPosition = {
+const PopUpPosition = {
   LEFT: 'left',
   RIGHT: 'right',
   ABOVE: 'above',
@@ -134,5 +134,7 @@ class PopUpAnchor extends React.Component {
     this.forceUpdate();
   };
 }
+
+PopUpAnchor.positions = PopUpPosition;
 
 export default PopUpAnchor;

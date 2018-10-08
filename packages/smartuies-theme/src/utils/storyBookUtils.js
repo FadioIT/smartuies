@@ -1,37 +1,5 @@
 import React from 'react';
 
-export const Button = React.forwardRef((props, ref) => (
-  <button
-    ref={ref}
-    style={{
-      background: '#29ABE2',
-      border: 'none',
-      borderRadius: 3,
-      color: '#FFF',
-      fontSize: '14px',
-      padding: '8px 16px',
-    }}
-    type="button"
-    {...props}
-  />
-));
-
-export const Input = React.forwardRef((props, ref) => (
-  <input
-    ref={ref}
-    style={{
-      background: '#F7F7F7',
-      border: '1px solid rgba(0,0,0,.15)',
-      borderRadius: 3,
-      boxShadow: 'inset 0 1px 2px rgba(0,0,0,.15)',
-      color: '#444',
-      fontSize: '14px',
-      padding: '8px 16px',
-    }}
-    {...props}
-  />
-));
-
 export const Window = React.forwardRef((props, ref) => (
   <div
     ref={ref}
