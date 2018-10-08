@@ -6,3 +6,4 @@ import './DropDownInput';
 import './Ellipsis';
 import './Input';
 import './PopUpAnchor';
+import './TabPanel';
