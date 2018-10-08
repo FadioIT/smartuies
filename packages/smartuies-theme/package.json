@@ -13,9 +13,11 @@
     "@fadioit/smartuies": "0.1.0"
   },
   "peerDependencies": {
+    "emotion": "^9.2.12",
     "prop-types": "^15.6.2",
     "react": "^16.5.2",
-    "react-dom": "^16.5.2"
+    "react-dom": "^16.5.2",
+    "react-emotion": "^9.2.12"
   },
   "devDependencies": {
     "@babel/core": "^7.1.2",
@@ -28,8 +30,10 @@
     "@storybook/core": "^v4.0.0-alpha.23",
     "@storybook/react": "^v4.0.0-alpha.23",
     "babel-loader": "^8.0.4",
+    "emotion": "^9.2.12",
     "prop-types": "^15.6.2",
     "react": "^16.5.2",
-    "react-dom": "^16.5.2"
+    "react-dom": "^16.5.2",
+    "react-emotion": "^9.2.12"
   }
 }
