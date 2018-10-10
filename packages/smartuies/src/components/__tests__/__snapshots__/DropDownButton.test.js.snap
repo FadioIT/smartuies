@@ -4,6 +4,8 @@ exports[`doesn’t render dropdown when mounting 1`] = `
 ShallowWrapper {
   Symbol(enzyme.__root__): [Circular],
   Symbol(enzyme.__unrendered__): <DropDownButton
+    closable={true}
+    focusDropDown={false}
     renderButton={[Function]}
   >
     [Function]

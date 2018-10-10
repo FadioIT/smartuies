@@ -9,7 +9,6 @@ export const Window = React.forwardRef((props, ref) => (
       borderRadius: 2,
       boxShadow: '0 8px 32px rgba(0,0,0,.15)',
       height: '100%',
-      padding: 16,
       boxSizing: 'border-box',
     }}
     {...props}

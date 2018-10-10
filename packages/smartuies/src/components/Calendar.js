@@ -1,11 +1,13 @@
 import React, { Fragment } from 'react';
-import { findDOMNode } from 'react-dom';
 import PropTypes from 'prop-types';
+import { refPropType } from '../utils';
 
 class Calendar extends React.Component {
   static propTypes = {
+    calendarRef: refPropType,
     selectedDate: PropTypes.number.isRequired,
     onChange: PropTypes.func.isRequired,
+    onKeyDown: PropTypes.func,
     minDate: PropTypes.number,
     maxDate: PropTypes.number,
 
@@ -21,7 +23,7 @@ class Calendar extends React.Component {
 
   state = {};
 
-  calendarRef = React.createRef();
+  calendarRef = this.props.calendarRef || React.createRef();
 
   static getDerivedStateFromProps({ selectedDate, minDate, maxDate }, state) {
     if (
@@ -66,7 +68,7 @@ class Calendar extends React.Component {
       onMonthMove: this.onMonthMove,
       onDateMove: this.onDateMove,
       onChange: this.onChange,
-      keyHandler: this.keyHandler,
+      onKeyDown: this.onKeyDown,
 
       longDisplayedYear: displayedYear,
       shortDisplayedYear: displayedYear, // @TODO
@@ -183,8 +185,7 @@ class Calendar extends React.Component {
   };
 
   onFocus = () => {
-    // eslint-disable-next-line react/no-find-dom-node
-    findDOMNode(this.calendarRef.current).focus();
+    this.calendarRef.current.focus();
   };
 
   onSelect = date => {
@@ -199,7 +200,7 @@ class Calendar extends React.Component {
     this.props.onChange(date.getTime());
   };
 
-  keyHandler = e => {
+  onKeyDown = e => {
     switch (e.keyCode) {
       case KEY_CODES.PAGE_UP:
         this.onMonthMove(-1);
@@ -251,6 +252,9 @@ class Calendar extends React.Component {
 
       default:
         break;
+    }
+    if (this.props.onKeyDown) {
+      this.props.onKeyDown(e);
     }
   };
 }

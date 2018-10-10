@@ -13,10 +13,12 @@ storiesOf('Calendar', module)
     />
   ))
   .add('dropDown', () => (
-    <DropDownInput onToggle={action('onToggle')}>
-      {({ dropDownRef }) => (
-        <Window ref={dropDownRef}>
+    <DropDownInput onToggle={action('onToggle')} focusDropDown>
+      {({ dropDownRef, onKeyDown }) => (
+        <Window>
           <Calendar
+            onKeyDown={onKeyDown}
+            calendarRef={dropDownRef}
             onChange={action('onChange')}
             selectedDate={Date.now() + 3 * 24 * 60 * 60 * 1000}
           />

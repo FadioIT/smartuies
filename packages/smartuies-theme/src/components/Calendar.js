@@ -18,7 +18,7 @@ const renderCalendar = props => {
   const {
     children,
     calendarRef,
-    keyHandler,
+    onKeyDown,
     longDisplayedYear,
     longDisplayedMonth,
     shortDayList,
@@ -28,7 +28,7 @@ const renderCalendar = props => {
   return (
     <div
       ref={calendarRef}
-      onKeyDown={keyHandler}
+      onKeyDown={onKeyDown}
       role="tree"
       tabIndex={0}
       className={styles.container}
@@ -64,7 +64,7 @@ const renderCalendar = props => {
 renderCalendar.propTypes = {
   children: PropTypes.any.isRequired,
   calendarRef: PropTypes.any,
-  keyHandler: PropTypes.func.isRequired,
+  onKeyDown: PropTypes.func.isRequired,
   longDisplayedYear: PropTypes.string.isRequired,
   longDisplayedMonth: PropTypes.string.isRequired,
   shortDayList: PropTypes.arrayOf(PropTypes.string).isRequired,

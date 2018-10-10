@@ -73,11 +73,6 @@ class PopUpAnchor extends React.Component {
 
     popUpNode.style.display = displayPopUp ? null : 'none';
 
-    const {
-      width: popupNodeWidth,
-      height: popupNodeHeight,
-    } = popUpNode.firstChild.getBoundingClientRect();
-
     this.popUpNode.style.height = popUpHeightMatchesAnchorHeight
       ? `${domNodeNodeBounds.height}px`
       : null;
@@ -85,6 +80,11 @@ class PopUpAnchor extends React.Component {
     this.popUpNode.style.width = popUpWidthMatchesAnchorWidth
       ? `${domNodeNodeBounds.width}px`
       : null;
+
+    const {
+      width: popupNodeWidth,
+      height: popupNodeHeight,
+    } = popUpNode.getBoundingClientRect();
 
     const nodeBounds = {
       left: domNodeNodeBounds.left,

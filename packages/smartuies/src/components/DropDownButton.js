@@ -1,17 +1,31 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import PopUpAnchor from './PopUpAnchor';
+import { refPropType } from '../utils';
+
+const KEY_CODES = {
+  ESCAPE: 27,
+};
 
 class DropDownButton extends React.Component {
   static propTypes = {
     children: PropTypes.func.isRequired,
     renderButton: PropTypes.func.isRequired,
+    dropDownRef: refPropType,
     onToggle: PropTypes.func,
+    onKeyDown: PropTypes.func,
+    focusDropDown: PropTypes.bool,
+    closable: PropTypes.bool,
+  };
+
+  static defaultProps = {
+    focusDropDown: false,
+    closable: true,
   };
 
   state = { open: false };
 
-  dropDownRef = React.createRef();
+  dropDownRef = this.props.dropDownRef || React.createRef();
 
   buttonRef = React.createRef();
 
@@ -21,6 +35,9 @@ class DropDownButton extends React.Component {
       () => {
         if (this.state.open) {
           this.addWindowEventHandlers();
+          if (this.props.focusDropDown) {
+            this.dropDownRef.current.focus();
+          }
         } else {
           this.removeWindowEventHandlers();
         }
@@ -29,6 +46,26 @@ class DropDownButton extends React.Component {
         }
       },
     );
+  };
+
+  onKeyDown = e => {
+    const { closable, onKeyDown } = this.props;
+    const { open } = this.state;
+
+    switch (e.keyCode) {
+      case KEY_CODES.ESCAPE:
+        if (open && closable) {
+          e.stopPropagation();
+          this.onToggle();
+        }
+        break;
+      default:
+        break;
+    }
+
+    if (onKeyDown) {
+      this.props.onKeyDown(e);
+    }
   };
 
   onWindowMouseDown = event => {
@@ -61,8 +98,16 @@ class DropDownButton extends React.Component {
   }
 
   render() {
-    const { children, renderButton, ...props } = this.props;
+    const {
+      children,
+      renderButton,
+      renderDropDown,
+      focusDropDown,
+      closable,
+      ...props
+    } = this.props;
     const { open } = this.state;
+
     return (
       <PopUpAnchor
         {...props}
@@ -71,12 +116,14 @@ class DropDownButton extends React.Component {
           ...props,
           buttonRef: this.buttonRef,
           onToggle: this.onToggle,
+          onKeyDown: this.onKeyDown,
           open,
         })}
       >
         {children({
           dropDownRef: this.dropDownRef,
           onToggle: this.onToggle,
+          onKeyDown: this.onKeyDown,
           open,
         })}
       </PopUpAnchor>
