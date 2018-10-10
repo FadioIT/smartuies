@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { StyleSheet, css, classNamePropType } from '../utils/styleUtils';
 
 const Ellipsis = React.forwardRef(
-  ({ children, className, size = 16, ...props }, ref) => (
+  ({ children, className, size = 16, ...otherProps }, ref) => (
     <span
       ref={ref}
       className={css(styles.ellipsis, className)}
@@ -13,7 +13,7 @@ const Ellipsis = React.forwardRef(
         maskImage: `linear-gradient(to left, transparent, #000 ${size}px)`,
         WebkitMaskImage: `linear-gradient(to left, transparent, #000 ${size}px)`,
       }}
-      {...props}
+      {...otherProps}
     >
       {children}
     </span>

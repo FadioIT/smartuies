@@ -15,7 +15,7 @@ export const Window = React.forwardRef((props, ref) => (
   />
 ));
 
-export const PanelTitle = React.forwardRef(({ open, ...props }, ref) => (
+export const PanelTitle = React.forwardRef(({ open, ...otherProps }, ref) => (
   <div
     ref={ref}
     style={{
@@ -26,7 +26,7 @@ export const PanelTitle = React.forwardRef(({ open, ...props }, ref) => (
       cursor: 'pointer',
       padding: '8px 16px',
     }}
-    {...props}
+    {...otherProps}
   />
 ));
 

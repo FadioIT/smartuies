@@ -5,7 +5,7 @@ import { colors, fonts, fontSizes } from '../theme';
 
 const Button = React.forwardRef(
   (
-    { disabled, kind, outline = true, light = false, className, ...props },
+    { disabled, kind, outline = true, light = false, className, ...otherProps },
     ref,
   ) => (
     <button
@@ -21,7 +21,7 @@ const Button = React.forwardRef(
         light && styles.light,
         className,
       )}
-      {...props}
+      {...otherProps}
     />
   ),
 );

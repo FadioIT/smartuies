@@ -2,14 +2,16 @@ import React from 'react';
 import { StyleSheet, css } from '../utils/styleUtils';
 import { colors, fonts, fontSizes } from '../theme';
 
-const Input = React.forwardRef(({ className, disabled, ...props }, ref) => (
-  <input
-    ref={ref}
-    disabled={disabled}
-    className={css(styles.input, disabled && styles.disabled, className)}
-    {...props}
-  />
-));
+const Input = React.forwardRef(
+  ({ className, disabled, ...otherProps }, ref) => (
+    <input
+      ref={ref}
+      disabled={disabled}
+      className={css(styles.input, disabled && styles.disabled, className)}
+      {...otherProps}
+    />
+  ),
+);
 
 export default Input;
 
