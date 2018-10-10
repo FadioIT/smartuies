@@ -1,9 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { renderChildren, childrenPropType } from '../utils';
 
 class CollapsiblePanel extends React.Component {
   static propTypes = {
-    children: PropTypes.func.isRequired,
+    children: childrenPropType.isRequired,
     renderButton: PropTypes.func.isRequired,
     onToggle: PropTypes.func,
   };
@@ -27,7 +28,7 @@ class CollapsiblePanel extends React.Component {
     return (
       <>
         {renderButton({ onToggle: this.onToggle, open })}
-        {open && children()}
+        {open && renderChildren(children)}
       </>
     );
   }

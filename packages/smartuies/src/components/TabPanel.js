@@ -1,9 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { renderChildren, childrenPropType } from '../utils';
 
 class TabPanel extends React.Component {
   static propTypes = {
-    children: PropTypes.func.isRequired,
+    children: childrenPropType.isRequired,
     renderTabList: PropTypes.func.isRequired,
     onChange: PropTypes.func.isRequired,
     tabList: PropTypes.array.isRequired,
@@ -46,7 +47,7 @@ class TabPanel extends React.Component {
           tabList,
         })}
         {tabList[selectedTab] &&
-          children({
+          renderChildren(children, {
             index: selectedTab,
             tab: tabList[selectedTab],
             onChange: this.onChange,

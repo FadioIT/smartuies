@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import PopUpAnchor from './PopUpAnchor';
-import { refPropType } from '../utils';
+import { refPropType, renderChildren, childrenPropType } from '../utils';
 
 const KEY_CODES = {
   ESCAPE: 27,
@@ -9,7 +9,7 @@ const KEY_CODES = {
 
 class DropDownButton extends React.Component {
   static propTypes = {
-    children: PropTypes.func.isRequired,
+    children: childrenPropType.isRequired,
     renderButton: PropTypes.func.isRequired,
     dropDownRef: refPropType,
     onToggle: PropTypes.func,
@@ -120,7 +120,7 @@ class DropDownButton extends React.Component {
           open,
         })}
       >
-        {children({
+        {renderChildren(children, {
           dropDownRef: this.dropDownRef,
           onToggle: this.onToggle,
           onKeyDown: this.onKeyDown,
