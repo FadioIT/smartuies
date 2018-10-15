@@ -1,5 +1,6 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
+import { IntlAdapter } from '@fadioit/smartuies-i18n';
 import { refPropType } from '../utils';
 
 class Calendar extends React.Component {
@@ -16,9 +17,11 @@ class Calendar extends React.Component {
     renderWeek: PropTypes.func.isRequired,
     renderDay: PropTypes.func.isRequired,
 
-    intl: PropTypes.shape({}),
+    adapter: PropTypes.object,
+  };
 
-    firstDayOfWeek: PropTypes.number,
+  static defaultProps = {
+    adapter: new IntlAdapter(),
   };
 
   state = {};
@@ -55,68 +58,72 @@ class Calendar extends React.Component {
     }
 
     return {
-      displayedYear: activeDate.getFullYear(),
-      displayedMonth: activeDate.getMonth(),
       activeDate,
     };
   };
 
-  render() {
-    const { displayedYear, displayedMonth } = this.state;
-    const renderProps = {
+  getRenderProps = () => {
+    const {
+      adapter,
+      calendarRef,
+      selectedDate,
+      onChange,
+      onKeyDown,
+      minDate,
+      maxDate,
+      renderCalendar,
+      renderWeek,
+      renderDay,
+      ...otherProps
+    } = this.props;
+    const { activeDate } = this.state;
+
+    return {
+      ...otherProps,
       onYearMove: this.onYearMove,
       onMonthMove: this.onMonthMove,
       onDateMove: this.onDateMove,
       onChange: this.onChange,
       onKeyDown: this.onKeyDown,
-
-      longDisplayedYear: displayedYear,
-      shortDisplayedYear: displayedYear, // @TODO
-      longDisplayedMonth: formatDate(
-        new Date(displayedYear, displayedMonth, 1),
-        'fr',
-        { month: 'long' },
-      ),
-      shortDisplayedMonth: formatDate(
-        new Date(displayedYear, displayedMonth, 1),
-        'fr',
-        { month: 'short' },
-      ),
-      longDayList: daysOfWeek,
-      shortDayList: daysOfWeek, // @TODO
+      activeDate: new Date(activeDate),
+      selectedDate: new Date(selectedDate),
+      minDate: minDate != null ? new Date(minDate) : null,
+      maxDate: maxDate != null ? new Date(maxDate) : null,
+      adapter,
     };
+  };
 
-    const firstDayOfWeek =
-      this.props.firstDayOfWeek != null ? this.props.firstDayOfWeek : 1;
+  render() {
+    const { activeDate } = this.state;
+    const renderProps = this.getRenderProps();
+    const { adapter } = renderProps;
 
     return this.props.renderCalendar({
       ...renderProps,
       calendarRef: this.calendarRef,
-      children: getWeekList(displayedMonth, displayedYear, firstDayOfWeek).map(
-        dayList => (
-          <Fragment key={dayList[0].getTime()}>
-            {this.props.renderWeek({
-              ...renderProps,
-              children: dayList.map(date => (
-                <Fragment key={date.getTime()}>
-                  {this.renderDay(renderProps, date)}
-                </Fragment>
-              )),
-            })}
-          </Fragment>
-        ),
-      ),
+      children: getWeekList(adapter, activeDate).map(dayList => (
+        <Fragment key={dayList[0].getTime()}>
+          {this.props.renderWeek({
+            ...renderProps,
+            children: dayList.map(date => (
+              <Fragment key={date.getTime()}>
+                {this.renderDay(renderProps, date)}
+              </Fragment>
+            )),
+          })}
+        </Fragment>
+      )),
     });
   }
 
   renderDay = (renderProps, date) => {
-    const { displayedMonth, activeDate } = this.state;
+    const { activeDate } = this.state;
     const { selectedDate } = this.props;
 
     const today = new Date();
     const currentSelectedDate = new Date(selectedDate);
 
-    const isInDisplayedMonth = date.getMonth() === displayedMonth;
+    const isInDisplayedMonth = date.getMonth() === activeDate.getMonth();
     const isSelected =
       date.getDate() === currentSelectedDate.getDate() &&
       date.getMonth() === currentSelectedDate.getMonth() &&
@@ -128,9 +135,6 @@ class Calendar extends React.Component {
       date.getMonth() === today.getMonth() &&
       date.getDate() === today.getDate();
 
-    const longLabel = formatDate(date, 'fr', { day: '2-digit' });
-    const shortLabel = formatDate(date, 'fr', { day: 'numeric' });
-
     return this.props.renderDay({
       ...renderProps,
       date,
@@ -138,8 +142,6 @@ class Calendar extends React.Component {
       isSelected,
       isActive,
       isToday,
-      longLabel,
-      shortLabel,
     });
   };
 
@@ -261,37 +263,18 @@ class Calendar extends React.Component {
 
 export default Calendar;
 
-const daysOfWeek = ['lu', 'ma', 'me', 'je', 've', 'sa', 'di'];
+export const getWeekList = (adapter, date) => {
+  const month = date.getMonth();
+  const weekList = [];
+  let firstDay = adapter.getFirstMonthDay(date);
 
-function getFirstWeekDayList(displayedMonth, displayedYear, firstDayOfWeek) {
-  const date = new Date(displayedYear, displayedMonth, 1);
-  const weeks = [];
-  while (date.getMonth() === displayedMonth) {
-    while (date.getDay() !== firstDayOfWeek) {
-      date.setDate(date.getDate() - 1);
-    }
-    weeks.push(new Date(date.getTime()));
-    date.setDate(date.getDate() + 7);
-  }
-  return weeks;
-}
+  do {
+    weekList.push(adapter.getWeekDays(firstDay));
+    firstDay = adapter.addDays(weekList[weekList.length - 1][0], 7);
+  } while (firstDay.getMonth() === month);
 
-export const getWeekList = (displayedMonth, displayedYear, firstDayOfWeek) =>
-  getFirstWeekDayList(displayedMonth, displayedYear, firstDayOfWeek).map(
-    date => {
-      const days = [];
-      let i = 0;
-      do {
-        days.push(new Date(date.getTime()));
-        date.setDate(date.getDate() + 1);
-        i++;
-      } while (i < 7);
-      return days;
-    },
-  );
-
-const formatDate = (date, locale, format) =>
-  new Intl.DateTimeFormat(locale, format).format(date);
+  return weekList;
+};
 
 const KEY_CODES = {
   ENTER: 13,

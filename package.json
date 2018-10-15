@@ -5,11 +5,14 @@
   ],
   "scripts": {
     "build": "lerna run build",
-    "watch": "yarn workspace @fadioit/smartuies watch & yarn workspace @fadioit/smartuies-theme storybook",
+    "watch": "yarn ws:core watch & yarn ws:i18n watch & yarn ws:theme storybook",
     "validate": "yarn lint && yarn test",
     "test": "lerna exec --concurrency 1 -- yarn test",
     "lint": "eslint ./ --fix",
-    "prepublish": "yarn build"
+    "prepublish": "yarn build",
+    "ws:core": "yarn workspace @fadioit/smartuies",
+    "ws:i18n": "yarn workspace @fadioit/smartuies-i18n",
+    "ws:theme": "yarn workspace @fadioit/smartuies-theme"
   },
   "husky": {
     "hooks": {

@@ -19,10 +19,8 @@ const renderCalendar = props => {
     children,
     calendarRef,
     onKeyDown,
-    longDisplayedYear,
-    longDisplayedMonth,
-    shortDayList,
-    longDayList,
+    adapter,
+    activeDate,
     onMonthMove,
   } = props;
   return (
@@ -38,7 +36,7 @@ const renderCalendar = props => {
           <Button onClick={() => onMonthMove(-1)}>prev</Button>
         </div>
         <div className={styles.monthLabel}>
-          {longDisplayedMonth} / {longDisplayedYear}
+          {adapter.formatMonthName(activeDate)} {adapter.formatYear(activeDate)}
         </div>
         <div className={styles.monthNext}>
           <Button className={styles.monthButton} onClick={() => onMonthMove(1)}>
@@ -47,10 +45,13 @@ const renderCalendar = props => {
         </div>
       </div>
       <div className={styles.row}>
-        {shortDayList.map((day, key) => (
-          <Cell key={day}>
-            <abbr className={styles.dayHead} title={longDayList[key]}>
-              {day}
+        {adapter.getWeekDays().map(weekDay => (
+          <Cell key={weekDay}>
+            <abbr
+              className={styles.dayHead}
+              title={adapter.formatWeekDayName(weekDay)}
+            >
+              {adapter.formatWeekDayName(weekDay, true)}
             </abbr>
           </Cell>
         ))}
@@ -65,11 +66,9 @@ renderCalendar.propTypes = {
   children: PropTypes.any.isRequired,
   calendarRef: PropTypes.any,
   onKeyDown: PropTypes.func.isRequired,
-  longDisplayedYear: PropTypes.string.isRequired,
-  longDisplayedMonth: PropTypes.string.isRequired,
-  shortDayList: PropTypes.arrayOf(PropTypes.string).isRequired,
-  longDayList: PropTypes.arrayOf(PropTypes.string).isRequired,
   onMonthMove: PropTypes.func.isRequired,
+  adapter: PropTypes.func.isRequired,
+  activeDate: PropTypes.object.isRequired,
 };
 
 const renderWeek = ({ children }) => (
@@ -81,12 +80,12 @@ renderWeek.propTypes = {
 
 const renderDay = ({
   date,
-  shortLabel,
   isActive,
   isInDisplayedMonth,
   isSelected,
   isToday,
   onChange,
+  adapter,
 }) => (
   <Cell>
     {isInDisplayedMonth && (
@@ -99,19 +98,19 @@ const renderDay = ({
         outline={isToday}
         className={css(styles.dayBtn)}
       >
-        {shortLabel}
+        {adapter.formatDay(date, true)}
       </Button>
     )}
   </Cell>
 );
 renderDay.propTypes = {
   date: PropTypes.shape({ getTime: PropTypes.func.isRequired }).isRequired,
-  shortLabel: PropTypes.string.isRequired,
   isActive: PropTypes.bool.isRequired,
   isInDisplayedMonth: PropTypes.bool.isRequired,
   isSelected: PropTypes.bool.isRequired,
   isToday: PropTypes.bool.isRequired,
   onChange: PropTypes.func.isRequired,
+  adapter: PropTypes.func.isRequired,
 };
 
 export const theme = {
