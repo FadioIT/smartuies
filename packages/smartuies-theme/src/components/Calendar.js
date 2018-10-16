@@ -21,7 +21,7 @@ const renderCalendar = props => {
     onKeyDown,
     adapter,
     activeDate,
-    onMonthMove,
+    onActiveDateMove,
   } = props;
   return (
     <div
@@ -33,13 +33,16 @@ const renderCalendar = props => {
     >
       <div className={styles.monthHeader}>
         <div className={styles.monthPrev}>
-          <Button onClick={() => onMonthMove(-1)}>prev</Button>
+          <Button onClick={() => onActiveDateMove({ month: -1 })}>prev</Button>
         </div>
         <div className={styles.monthLabel}>
           {adapter.formatMonthName(activeDate)} {adapter.formatYear(activeDate)}
         </div>
         <div className={styles.monthNext}>
-          <Button className={styles.monthButton} onClick={() => onMonthMove(1)}>
+          <Button
+            className={styles.monthButton}
+            onClick={() => onActiveDateMove({ month: 1 })}
+          >
             next
           </Button>
         </div>
@@ -66,7 +69,7 @@ renderCalendar.propTypes = {
   children: PropTypes.any.isRequired,
   calendarRef: PropTypes.any,
   onKeyDown: PropTypes.func.isRequired,
-  onMonthMove: PropTypes.func.isRequired,
+  onActiveDateMove: PropTypes.func.isRequired,
   adapter: PropTypes.func.isRequired,
   activeDate: PropTypes.object.isRequired,
 };

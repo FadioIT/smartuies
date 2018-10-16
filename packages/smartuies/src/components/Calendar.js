@@ -80,12 +80,10 @@ class Calendar extends React.Component {
 
     return {
       ...otherProps,
-      onYearMove: this.onYearMove,
-      onMonthMove: this.onMonthMove,
-      onDateMove: this.onDateMove,
+      onActiveDateMove: this.onActiveDateMove,
       onChange: this.onChange,
       onKeyDown: this.onKeyDown,
-      activeDate: new Date(activeDate),
+      activeDate,
       selectedDate: new Date(selectedDate),
       minDate: minDate != null ? new Date(minDate) : null,
       maxDate: maxDate != null ? new Date(maxDate) : null,
@@ -145,44 +143,30 @@ class Calendar extends React.Component {
     });
   };
 
-  onYearMove = diff => {
-    if (diff) {
-      this.setState(({ activeDate }) =>
-        Calendar.getStateFromActiveDate(
-          new Date(activeDate).setFullYear(
-            activeDate.getFullYear() + diff,
-            activeDate.getMonth() + (diff > 0 ? 0 : 1),
-            diff > 0 ? 1 : 0,
-          ),
-          this.props,
-        ),
-      );
-    }
-  };
-
-  onMonthMove = diff => {
-    if (diff) {
-      this.setState(({ activeDate }) =>
-        Calendar.getStateFromActiveDate(
-          new Date(activeDate).setFullYear(
+  onActiveDateMove = ({ year, month, date }) => {
+    if (year || month || date) {
+      this.setState(({ activeDate }) => {
+        activeDate = new Date(activeDate);
+        if (year) {
+          activeDate.setFullYear(
+            activeDate.getFullYear() + year,
+            activeDate.getMonth() + (year > 0 ? 0 : 1),
+            year > 0 ? 1 : 0,
+          );
+        }
+        if (month) {
+          activeDate.setFullYear(
             activeDate.getFullYear(),
-            activeDate.getMonth() + diff + (diff > 0 ? 0 : 1),
-            diff > 0 ? 1 : 0,
-          ),
-          this.props,
-        ),
-      );
-    }
-  };
+            activeDate.getMonth() + month + (month > 0 ? 0 : 1),
+            month > 0 ? 1 : 0,
+          );
+        }
+        if (date) {
+          activeDate.setDate(activeDate.getDate() + date);
+        }
 
-  onDateMove = diff => {
-    if (diff) {
-      this.setState(({ activeDate }) =>
-        Calendar.getStateFromActiveDate(
-          new Date(activeDate).setDate(activeDate.getDate() + diff),
-          this.props,
-        ),
-      );
+        return Calendar.getStateFromActiveDate(activeDate, this.props);
+      });
     }
   };
 
@@ -205,46 +189,62 @@ class Calendar extends React.Component {
   onKeyDown = e => {
     switch (e.keyCode) {
       case KEY_CODES.PAGE_UP:
-        this.onMonthMove(-1);
+        this.onActiveDateMove({
+          month: -1,
+        });
         this.onFocus();
         e.preventDefault();
         break;
       case KEY_CODES.PAGE_DOWN:
-        this.onMonthMove(1);
+        this.onActiveDateMove({
+          month: 1,
+        });
         this.onFocus();
         e.preventDefault();
         break;
 
       case KEY_CODES.UP:
-        this.onDateMove(-7);
+        this.onActiveDateMove({
+          date: -7,
+        });
         this.onFocus();
         e.preventDefault();
         break;
       case KEY_CODES.DOWN:
-        this.onDateMove(7);
+        this.onActiveDateMove({
+          date: 7,
+        });
         this.onFocus();
         e.preventDefault();
         break;
 
       case KEY_CODES.LEFT:
-        this.onDateMove(-1);
+        this.onActiveDateMove({
+          date: -1,
+        });
         this.onFocus();
         e.preventDefault();
         break;
       case KEY_CODES.RIGHT:
-        this.onDateMove(1);
+        this.onActiveDateMove({
+          date: 1,
+        });
         this.onFocus();
         e.preventDefault();
         break;
 
       case KEY_CODES.HOME:
-        this.onMonthMove(-1);
-        this.onDateMove(1);
+        this.onActiveDateMove({
+          month: -1,
+          date: 1,
+        });
         e.preventDefault();
         break;
       case KEY_CODES.END:
-        this.onMonthMove(1);
-        this.onDateMove(-1);
+        this.onActiveDateMove({
+          month: 1,
+          date: -1,
+        });
         e.preventDefault();
         break;
 
