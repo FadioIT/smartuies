@@ -16,14 +16,23 @@ storiesOf('PopUpAnchor', module)
     );
     const popUpWidthMatchesAnchorWidth = boolean('Match anchor width', false);
     const displayPopUp = boolean('displayPopUp', true);
-    const popUpPosition = select(
-      'popUpPosition',
+    const horizontalPosition = select(
+      'popUpPosition.horizontal',
       {
+        [positions.BEFORE]: 'Before',
         [positions.LEFT]: 'Left',
         [positions.RIGHT]: 'Right',
+        [positions.AFTER]: 'After',
+      },
+      positions.LEFT,
+    );
+    const verticalPosition = select(
+      'popUpPosition.vertical',
+      {
         [positions.ABOVE]: 'Above',
+        [positions.TOP]: 'Top',
+        [positions.BOTTOM]: 'Bottom',
         [positions.BELOW]: 'Below',
-        [positions.TOP_LEFT]: 'Top left',
       },
       positions.BELOW,
     );
@@ -32,7 +41,10 @@ storiesOf('PopUpAnchor', module)
       <PopUpAnchor
         popUpHeightMatchesAnchorHeight={popUpHeightMatchesAnchorHeight}
         popUpWidthMatchesAnchorWidth={popUpWidthMatchesAnchorWidth}
-        popUpPosition={popUpPosition}
+        popUpPosition={{
+          horizontal: horizontalPosition,
+          vertical: verticalPosition,
+        }}
         anchor={<Button>Anchor element</Button>}
         displayPopUp={displayPopUp}
       >

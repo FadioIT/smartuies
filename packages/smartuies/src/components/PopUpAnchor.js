@@ -2,24 +2,64 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
 
-const PopUpPosition = {
-  LEFT: 'left',
-  RIGHT: 'right',
-  ABOVE: 'above',
-  BELOW: 'below',
-  TOP_LEFT: 'topLeft',
+const POSITIONS = {
+  BEFORE: 'BEFORE',
+  LEFT: 'LEFT',
+  RIGHT: 'RIGHT',
+  AFTER: 'AFTER',
+  ABOVE: 'ABOVE',
+  TOP: 'TOP',
+  BOTTOM: 'BOTTOM',
+  BELOW: 'BELOW',
 };
+
+const HORIZONTAL_POSITIONS = [
+  POSITIONS.BEFORE,
+  POSITIONS.LEFT,
+  POSITIONS.RIGHT,
+  POSITIONS.AFTER,
+];
+
+const VERTICAL_POSITIONS = [
+  POSITIONS.ABOVE,
+  POSITIONS.TOP,
+  POSITIONS.BOTTOM,
+  POSITIONS.BELOW,
+];
+
+const DEFAULT_VERTICAL_POSITION = POSITIONS.BELOW;
+
+const DEFAULT_HORIZONTAL_POSITION = POSITIONS.LEFT;
 
 class PopUpAnchor extends React.Component {
   static propTypes = {
     popUpHeightMatchesAnchorHeight: PropTypes.bool,
     popUpWidthMatchesAnchorWidth: PropTypes.bool,
-    popUpPosition: PropTypes.oneOf([
-      'left',
-      'right',
-      'above',
-      'below',
-      'topLeft',
+    popUpPosition: PropTypes.oneOfType([
+      PropTypes.oneOf([
+        POSITIONS.BEFORE,
+        POSITIONS.LEFT,
+        POSITIONS.RIGHT,
+        POSITIONS.AFTER,
+        POSITIONS.ABOVE,
+        POSITIONS.TOP,
+        POSITIONS.BOTTOM,
+        POSITIONS.BELOW,
+      ]),
+      PropTypes.shape({
+        horizontal: PropTypes.oneOf([
+          POSITIONS.BEFORE,
+          POSITIONS.LEFT,
+          POSITIONS.RIGHT,
+          POSITIONS.AFTER,
+        ]),
+        vertical: PropTypes.oneOf([
+          POSITIONS.ABOVE,
+          POSITIONS.TOP,
+          POSITIONS.BOTTOM,
+          POSITIONS.BELOW,
+        ]),
+      }),
     ]),
 
     anchor: PropTypes.element.isRequired,
@@ -30,8 +70,45 @@ class PopUpAnchor extends React.Component {
   static defaultProps = {
     popUpHeightMatchesAnchorHeight: false,
     popUpWidthMatchesAnchorWidth: false,
-    popUpPosition: PopUpPosition.BELOW,
+    popUpPosition: {
+      horizontal: POSITIONS.LEFT,
+      vertical: POSITIONS.BELOW,
+    },
   };
+
+  state = {
+    horizontalPosition: null,
+    verticalPosition: null,
+  };
+
+  static getDerivedStateFromProps({ popUpPosition }) {
+    if (typeof popUpPosition === 'string') {
+      if (HORIZONTAL_POSITIONS.some(position => position === popUpPosition)) {
+        return {
+          horizontalPosition: popUpPosition,
+          verticalPosition: DEFAULT_VERTICAL_POSITION,
+        };
+      }
+
+      if (VERTICAL_POSITIONS.some(position => position === popUpPosition)) {
+        return {
+          horizontalPosition: DEFAULT_HORIZONTAL_POSITION,
+          verticalPosition: popUpPosition,
+        };
+      }
+
+      return {
+        horizontalPosition: DEFAULT_HORIZONTAL_POSITION,
+        verticalPosition: DEFAULT_VERTICAL_POSITION,
+      };
+    }
+
+    return {
+      horizontalPosition:
+        popUpPosition.horizontal || DEFAULT_HORIZONTAL_POSITION,
+      verticalPosition: popUpPosition.vertical || DEFAULT_VERTICAL_POSITION,
+    };
+  }
 
   constructor(props, context) {
     super(props, context);
@@ -61,24 +138,24 @@ class PopUpAnchor extends React.Component {
     const {
       popUpHeightMatchesAnchorHeight,
       popUpWidthMatchesAnchorWidth,
-      popUpPosition,
       displayPopUp,
     } = this.props;
+    const { horizontalPosition, verticalPosition } = this.state;
+
+    // eslint-disable-next-line react/no-find-dom-node
+    const anchorNode = ReactDOM.findDOMNode(this);
+    const anchorBounds = anchorNode.getBoundingClientRect();
 
     const { popUpNode } = this;
-    popUpNode.style.display = 'none';
-    // eslint-disable-next-line react/no-find-dom-node
-    const domNode = ReactDOM.findDOMNode(this);
-    const domNodeNodeBounds = domNode.getBoundingClientRect();
-
     popUpNode.style.display = displayPopUp ? null : 'none';
+    popUpNode.style.position = 'absolute';
 
     this.popUpNode.style.height = popUpHeightMatchesAnchorHeight
-      ? `${domNodeNodeBounds.height}px`
+      ? `${anchorBounds.height}px`
       : null;
 
     this.popUpNode.style.width = popUpWidthMatchesAnchorWidth
-      ? `${domNodeNodeBounds.width}px`
+      ? `${anchorBounds.width}px`
       : null;
 
     const {
@@ -86,35 +163,39 @@ class PopUpAnchor extends React.Component {
       height: popupNodeHeight,
     } = popUpNode.getBoundingClientRect();
 
-    const nodeBounds = {
-      left: domNodeNodeBounds.left,
-      top: domNodeNodeBounds.top,
-    };
-
-    switch (popUpPosition) {
-      case PopUpPosition.BELOW:
-        nodeBounds.top += domNodeNodeBounds.height;
+    switch (horizontalPosition) {
+      case POSITIONS.BEFORE:
+        this.popUpNode.style.left = `${anchorBounds.left - popupNodeWidth}px`;
         break;
-      case PopUpPosition.ABOVE:
-        nodeBounds.top -= popupNodeHeight;
+      case POSITIONS.LEFT:
+        this.popUpNode.style.left = `${anchorBounds.left}px`;
         break;
-      case PopUpPosition.RIGHT:
-        nodeBounds.left = domNodeNodeBounds.right;
-        nodeBounds.top -= popupNodeHeight / 2 - domNodeNodeBounds.height / 2;
+      case POSITIONS.RIGHT:
+        this.popUpNode.style.left = `${anchorBounds.right - popupNodeWidth}px`;
         break;
-      case PopUpPosition.LEFT:
-        nodeBounds.left -= popupNodeWidth;
-        nodeBounds.top -= popupNodeHeight / 2 - domNodeNodeBounds.height / 2;
+      case POSITIONS.AFTER:
+        this.popUpNode.style.left = `${anchorBounds.right}px`;
         break;
-      case PopUpPosition.TOP_LEFT:
       default:
-        // already 0,0
         break;
     }
 
-    popUpNode.style.position = 'absolute';
-    popUpNode.style.top = `${nodeBounds.top}px`;
-    popUpNode.style.left = `${nodeBounds.left}px`;
+    switch (verticalPosition) {
+      case POSITIONS.ABOVE:
+        this.popUpNode.style.top = `${anchorBounds.top - popupNodeHeight}px`;
+        break;
+      case POSITIONS.TOP:
+        this.popUpNode.style.top = `${anchorBounds.top}px`;
+        break;
+      case POSITIONS.BOTTOM:
+        this.popUpNode.style.top = `${anchorBounds.bottom - popupNodeHeight}px`;
+        break;
+      case POSITIONS.BELOW:
+        this.popUpNode.style.top = `${anchorBounds.bottom}px`;
+        break;
+      default:
+        break;
+    }
   }
 
   render() {
@@ -135,6 +216,6 @@ class PopUpAnchor extends React.Component {
   };
 }
 
-PopUpAnchor.positions = PopUpPosition;
+PopUpAnchor.positions = POSITIONS;
 
 export default PopUpAnchor;

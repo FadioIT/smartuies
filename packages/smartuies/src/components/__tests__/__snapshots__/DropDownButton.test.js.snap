@@ -41,7 +41,10 @@ ShallowWrapper {
       </div>,
       "displayPopUp": false,
       "popUpHeightMatchesAnchorHeight": false,
-      "popUpPosition": "below",
+      "popUpPosition": Object {
+        "horizontal": "LEFT",
+        "vertical": "BELOW",
+      },
       "popUpWidthMatchesAnchorWidth": false,
     },
     "ref": null,
@@ -100,7 +103,10 @@ ShallowWrapper {
         </div>,
         "displayPopUp": false,
         "popUpHeightMatchesAnchorHeight": false,
-        "popUpPosition": "below",
+        "popUpPosition": Object {
+          "horizontal": "LEFT",
+          "vertical": "BELOW",
+        },
         "popUpWidthMatchesAnchorWidth": false,
       },
       "ref": null,
