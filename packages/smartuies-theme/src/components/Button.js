@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { StyleSheet, css } from '../utils/styleUtils';
-import { colors, fonts, fontSizes } from '../theme';
+import { colors, fonts, fontSizes, boxShadows } from '../theme';
 
 const Button = React.forwardRef(
   (
@@ -63,7 +63,7 @@ const styles = StyleSheet.create({
     },
     '&:focus-visible': {
       outline: 'none',
-      boxShadow: '0 0 0 3px rgba(0,0,0,.15)',
+      boxShadow: boxShadows.focus,
     },
   },
 

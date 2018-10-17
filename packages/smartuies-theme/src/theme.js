@@ -17,3 +17,7 @@ export const fonts = {
 export const fontSizes = {
   normal: 14,
 };
+
+export const boxShadows = {
+  focus: '0 0 0 3px rgba(0,0,0,.15)',
+};

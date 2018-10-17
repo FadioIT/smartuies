@@ -1,7 +1,6 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
-import { Panel } from '../utils/storyBookUtils';
 
 import TabPanel from '../components/TabPanel';
 
@@ -16,9 +15,9 @@ storiesOf('TabPanel', module)
       ]}
     >
       {({ tab }) => (
-        <Panel>
+        <div>
           Panel for <strong>{tab.label}</strong>
-        </Panel>
+        </div>
       )}
     </TabPanel>
   ))
@@ -28,9 +27,9 @@ storiesOf('TabPanel', module)
       tabList={[{ key: 1, label: 'A single tab' }]}
     >
       {({ tab }) => (
-        <Panel>
+        <div>
           Panel for <strong>{tab.label}</strong>
-        </Panel>
+        </div>
       )}
     </TabPanel>
   ));

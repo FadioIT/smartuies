@@ -6,6 +6,7 @@ class CollapsiblePanel extends React.Component {
   static propTypes = {
     children: childrenPropType.isRequired,
     renderButton: PropTypes.func.isRequired,
+    renderPanel: PropTypes.func.isRequired,
     onToggle: PropTypes.func,
   };
 
@@ -23,12 +24,16 @@ class CollapsiblePanel extends React.Component {
   };
 
   render() {
-    const { children, renderButton } = this.props;
+    const { children, renderButton, renderPanel } = this.props;
     const { open } = this.state;
     return (
       <>
         {renderButton({ onToggle: this.onToggle, open })}
-        {open && renderChildren(children)}
+        {renderPanel({
+          onToggle: this.onToggle,
+          open,
+          children: open && renderChildren(children),
+        })}
       </>
     );
   }
