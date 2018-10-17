@@ -2,10 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import PopUpAnchor from './PopUpAnchor';
 import { refPropType, renderChildren, childrenPropType } from '../utils';
-
-const KEY_CODES = {
-  ESCAPE: 27,
-};
+import { KEY_CODES } from '../constants';
 
 class DropDownButton extends React.Component {
   static propTypes = {
@@ -52,15 +49,11 @@ class DropDownButton extends React.Component {
     const { closable, onKeyDown } = this.props;
     const { open } = this.state;
 
-    switch (e.keyCode) {
-      case KEY_CODES.ESCAPE:
-        if (open && closable) {
-          e.stopPropagation();
-          this.onToggle();
-        }
-        break;
-      default:
-        break;
+    if (e.keyCode === KEY_CODES.ESCAPE) {
+      if (open && closable) {
+        e.stopPropagation();
+        this.onToggle();
+      }
     }
 
     if (onKeyDown) {

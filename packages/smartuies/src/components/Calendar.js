@@ -2,6 +2,7 @@ import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { IntlAdapter } from '@fadioit/smartuies-i18n';
 import { refPropType } from '../utils';
+import { KEY_CODES } from '../constants';
 
 class Calendar extends React.Component {
   static propTypes = {
@@ -274,16 +275,4 @@ export const getWeekList = (adapter, date) => {
   } while (firstDay.getMonth() === month);
 
   return weekList;
-};
-
-const KEY_CODES = {
-  ENTER: 13,
-  PAGE_UP: 33,
-  PAGE_DOWN: 34,
-  END: 35,
-  HOME: 36,
-  LEFT: 37,
-  UP: 38,
-  RIGHT: 39,
-  DOWN: 40,
 };

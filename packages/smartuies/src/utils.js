@@ -11,4 +11,3 @@ export const childrenPropType = PropTypes.oneOfType([
 export const refPropType = PropTypes.shape({
   current: PropTypes.object,
 });
-
