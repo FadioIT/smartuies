@@ -21,3 +21,16 @@ export const fontSizes = {
 export const boxShadows = {
   focus: '0 0 0 3px rgba(0,0,0,.15)',
 };
+
+export const mixins = {
+  outsight: {
+    border: 'none',
+    clip: 'rect(0,0,0,0)',
+    height: 1,
+    margin: -1,
+    overflow: 'hidden',
+    padding: 0,
+    position: 'absolute',
+    width: 1,
+  },
+};

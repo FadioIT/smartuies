@@ -1,5 +1,6 @@
 import './Button';
 import './Calendar';
+import './CheckBox';
 import './CollapsiblePanel';
 import './DropDownButton';
 import './DropDownInput';
