@@ -2,70 +2,127 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Calendar, themeComponent } from '@fadioit/smartuies';
 import { StyleSheet, css } from '../utils/styleUtils';
-import { fonts } from '../theme';
+import { fonts, fontSizes } from '../theme';
 import Button from './Button';
+import ChevronLeft from './icons/ChevronLeft';
+import ChevronRight from './icons/ChevronRight';
+import TranslateTransition, {
+  DIRECTIONS as TranslateDirections,
+} from './transitions/Translate';
 
-const Cell = ({ children }) => (
-  <div className={styles.cell}>
-    <div className={styles.cellWrap}>{children}</div>
-  </div>
-);
+const Cell = ({ children }) => <div className={styles.cell}>{children}</div>;
 Cell.propTypes = {
   children: PropTypes.any,
 };
 
-const renderCalendar = props => {
-  const {
-    children,
-    calendarRef,
-    onKeyDown,
-    adapter,
-    activeDate,
-    onActiveDateMove,
-  } = props;
-  return (
-    <div
-      ref={calendarRef}
-      onKeyDown={onKeyDown}
-      role="tree"
-      tabIndex={0}
-      className={styles.container}
-    >
-      <div className={styles.monthHeader}>
-        <div className={styles.monthPrev}>
-          <Button onClick={() => onActiveDateMove({ month: -1 })}>prev</Button>
-        </div>
-        <div className={styles.monthLabel}>
-          {adapter.formatMonthName(activeDate)} {adapter.formatYear(activeDate)}
-        </div>
-        <div className={styles.monthNext}>
-          <Button
-            className={styles.monthButton}
-            onClick={() => onActiveDateMove({ month: 1 })}
-          >
-            next
-          </Button>
-        </div>
-      </div>
-      <div className={styles.row}>
-        {adapter.getWeekDays().map(weekDay => (
-          <Cell key={weekDay}>
-            <abbr
-              className={styles.dayHead}
-              title={adapter.formatWeekDayName(weekDay)}
+class CalendarView extends React.Component {
+  // eslint-disable-next-line react/no-unused-state
+  state = { lastActiveDate: new Date(), direction: null };
+
+  static getDerivedStateFromProps({ activeDate }, { lastActiveDate }) {
+    const activeTime = activeDate.getTime();
+    const previousTime = lastActiveDate.getTime();
+
+    if (activeTime === previousTime) {
+      return null;
+    }
+
+    if (activeTime < previousTime) {
+      return {
+        lastActiveDate: activeDate,
+        direction: TranslateDirections.RIGHT,
+      };
+    }
+
+    return {
+      lastActiveDate: activeDate,
+      direction: TranslateDirections.LEFT,
+    };
+  }
+
+  render() {
+    const { direction } = this.state;
+    const {
+      children,
+      calendarRef,
+      onKeyDown,
+      adapter,
+      activeDate,
+      onActiveDateMove,
+    } = this.props;
+    const key = `${activeDate.getMonth()}-${activeDate.getFullYear()}`;
+
+    return (
+      <div
+        ref={calendarRef}
+        onKeyDown={onKeyDown}
+        role="tree"
+        tabIndex={0}
+        className={styles.container}
+      >
+        <div className={styles.monthHeader}>
+          <div className={styles.monthPrev}>
+            <Button
+              outline={false}
+              round
+              onClick={() => onActiveDateMove({ month: -1 })}
             >
-              {adapter.formatWeekDayName(weekDay, true)}
-            </abbr>
-          </Cell>
-        ))}
+              <ChevronLeft />
+            </Button>
+          </div>
+          <div className={styles.monthLabel}>
+            <TranslateTransition keys={key} direction={direction}>
+              {transitionStyles => (
+                <div
+                  className={styles.monthLabelValue}
+                  style={transitionStyles}
+                >
+                  {adapter.formatMonthName(activeDate)}{' '}
+                  {adapter.formatYear(activeDate)}
+                </div>
+              )}
+            </TranslateTransition>
+          </div>
+          <div className={styles.monthNext}>
+            <Button
+              outline={false}
+              round
+              className={styles.monthButton}
+              onClick={() => onActiveDateMove({ month: 1 })}
+            >
+              <ChevronRight />
+            </Button>
+          </div>
+        </div>
+        <div className={styles.calendarContainer}>
+          <div className={styles.row}>
+            {adapter.getWeekDays().map(weekDay => (
+              <Cell key={weekDay}>
+                <abbr
+                  className={styles.dayHead}
+                  title={adapter.formatWeekDayName(weekDay)}
+                >
+                  {adapter.formatWeekDayName(weekDay, true)}
+                </abbr>
+              </Cell>
+            ))}
+          </div>
+          <div className={styles.calendar}>
+            <TranslateTransition keys={key} direction={direction}>
+              {transitionStyles => (
+                <div className={styles.calendarWrap} style={transitionStyles}>
+                  {children}
+                </div>
+              )}
+            </TranslateTransition>
+          </div>
+        </div>
       </div>
-      <div className={styles.calendar}>
-        <div className={styles.calendarWrap}>{children}</div>
-      </div>
-    </div>
-  );
-};
-renderCalendar.propTypes = {
+    );
+  }
+}
+
+CalendarView.propTypes = {
   children: PropTypes.any.isRequired,
   calendarRef: PropTypes.any,
   onKeyDown: PropTypes.func.isRequired,
@@ -73,6 +130,8 @@ renderCalendar.propTypes = {
   adapter: PropTypes.func.isRequired,
   activeDate: PropTypes.object.isRequired,
 };
+
+const renderCalendar = props => <CalendarView {...props} />;
 
 const renderWeek = ({ children }) => (
   <div className={styles.row}>{children}</div>
@@ -95,6 +154,8 @@ const renderDay = ({
       <Button
         onClick={() => onChange(date.getTime())}
         disabled={!isInDisplayedMonth}
+        round
+        full
         kind={
           (isSelected && 'primary') || (isActive && 'secondary') || undefined
         }
@@ -128,77 +189,92 @@ const styles = StyleSheet.create({
   container: {
     fontFamily: fonts.normal,
     outline: 'none',
-    width: 360,
+    width: 280,
   },
   monthHeader: {
     display: 'flex',
-    justifyContent: 'space-between',
   },
   monthPrev: {
     display: 'flex',
     flexGrow: 1,
+    flexShrink: 1,
+    flexBasis: 0,
     margin: 4,
   },
   monthNext: {
     display: 'flex',
     justifyContent: 'flex-end',
     flexGrow: 1,
+    flexShrink: 1,
+    flexBasis: 0,
     margin: 4,
   },
   monthLabel: {
-    alignItems: 'center',
     display: 'flex',
-    flexGrow: 0,
+    flexGrow: 1,
     margin: 4,
+    overflow: 'hidden',
+  },
+  monthLabelValue: {
+    display: 'inline-flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: '100%',
+    width: '100%',
+    '& + &': {
+      marginLeft: '-100%',
+    },
   },
 
   dayHead: {
     display: 'flex',
     flexGrow: 1,
+    flexBasis: 0,
+    fontSize: fontSizes.small,
     fontWeight: 'bold',
     margin: 'auto',
-    position: 'absolute',
-    left: '50%',
-    top: '50%',
-    transform: 'translate(-50%, -50%)',
     textDecoration: 'none',
   },
 
+  calendarContainer: {
+    display: 'flex',
+    flexGrow: 1,
+    overflow: 'hidden',
+    flexDirection: 'column',
+  },
   calendar: {
-    paddingTop: `${(100 / 7) * 6}%`,
-    position: 'relative',
+    display: 'flex',
+    '&:after': {
+      paddingTop: `${(100 / 7) * 6}%`,
+      position: 'relative',
+    },
   },
   calendarWrap: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    height: '100%',
+    display: 'flex',
+    flexDirection: 'column',
+    flexShrink: 0,
     width: '100%',
+    '& + &': {
+      marginLeft: '-100%',
+    },
   },
 
   dayBtn: {
-    borderRadius: '100%',
-    height: '100%',
-    width: '100%',
     padding: 0,
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
     transition: 'all .2s',
   },
 
   row: {
     display: 'flex',
     flexDirection: 'row',
+    flexShrink: 0,
+    width: '100%',
   },
   cell: {
     display: 'flex',
+    flexBasis: 0,
     flexGrow: 1,
-    position: 'relative',
+    flexShrink: 0,
     margin: 4,
-  },
-  cellWrap: {
-    paddingTop: '100%',
   },
 });

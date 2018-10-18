@@ -10,7 +10,8 @@
     "storybook": "start-storybook -p 9001 -c .storybook"
   },
   "dependencies": {
-    "@fadioit/smartuies": "0.1.0"
+    "@fadioit/smartuies": "0.1.0",
+    "react-spring": "^5.9.2"
   },
   "peerDependencies": {
     "emotion": "^9.2.12",

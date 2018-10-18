@@ -3936,6 +3936,7 @@ data-urls@^1.0.0:
     whatwg-url "^7.0.0"
 
 "date-fns-v1@npm:date-fns@^1.0.0", "date-fns@^1.0.0 || ^2.0.0", date-fns@^1.27.2:
+  name date-fns-v1
   version "1.29.0"
   resolved "https://registry.yarnpkg.com/date-fns/-/date-fns-1.29.0.tgz#12e609cdcb935127311d04d33334e2960a2a54e6"
 
@@ -8727,6 +8728,12 @@ react-split-pane@^0.1.84:
     prop-types "^15.5.10"
     react-lifecycles-compat "^3.0.4"
     react-style-proptype "^3.0.0"
+
+react-spring@^5.9.2:
+  version "5.9.2"
+  resolved "https://registry.yarnpkg.com/react-spring/-/react-spring-5.9.2.tgz#4c4e048ffce24755eaa60acd2f3fe4a3d686ef16"
+  dependencies:
+    "@babel/runtime" "^7.0.0"
 
 react-style-proptype@^3.0.0:
   version "3.2.2"
