@@ -1,7 +1,7 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
-import { Window } from '../utils/storyBookUtils';
+import Window from '../components/Window';
 
 import DropDownButton from '../components/DropDownButton';
 

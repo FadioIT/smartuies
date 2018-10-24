@@ -41,5 +41,8 @@ const styles = StyleSheet.create({
   },
   container: {
     filter: 'drop-shadow(0 8px 32px rgba(0,0,0, .75))',
+    boxSizing: 'border-box',
+    maxWidth: '100%',
+    padding: 16,
   },
 });

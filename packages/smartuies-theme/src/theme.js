@@ -1,4 +1,7 @@
 export const colors = {
+  textLighter: '#666',
+  text: '#444',
+  textDarker: '#222',
   primary: '#2196f3',
   primaryDarker: '#1e88e5',
   primaryLighter: '#64b5f6',
@@ -16,6 +19,7 @@ export const fonts = {
 
 export const fontSizes = {
   normal: 14,
+  big: 24,
 };
 
 export const boxShadows = {
@@ -33,4 +37,10 @@ export const mixins = {
     position: 'absolute',
     width: 1,
   },
+};
+
+export const globals = {
+  color: colors.text,
+  fontSize: fontSizes.normal,
+  fontFamily: fonts.normal,
 };

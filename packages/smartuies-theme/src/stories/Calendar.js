@@ -2,8 +2,9 @@ import React from 'react';
 import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import { withKnobs, date } from '@storybook/addon-knobs';
-import { Window } from '../utils/storyBookUtils';
 import DropDownInput from '../components/DropDownInput';
+import Window from '../components/Window';
+
 import Calendar from '../components/Calendar';
 
 const dateKnob = (name, defaultValue) => {

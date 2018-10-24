@@ -2,7 +2,7 @@ import React from 'react';
 import { storiesOf } from '@storybook/react';
 import { withKnobs, boolean, select } from '@storybook/addon-knobs';
 import { PopUpAnchor } from '@fadioit/smartuies';
-import { Window } from '../utils/storyBookUtils';
+import Window from '../components/Window';
 import Button from '../components/Button';
 
 const { positions } = PopUpAnchor;
