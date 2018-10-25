@@ -17,8 +17,11 @@
     "babel-core": "^7.0.0-bridge",
     "babel-jest": "^23.6.0",
     "jest": "^23.6.0",
-    "date-fns-v1": "npm:date-fns@^1",
-    "date-fns-v2": "npm:date-fns@^2",
+    "date-fns-v1": "npm:date-fns@^1.0.0",
+    "date-fns-v2": "npm:date-fns@^2.0.0",
     "moment": "^2.22.2"
+  },
+  "optionalDependencies": {
+    "date-fns": "^1.0.0 || ^2.0.0"
   }
 }

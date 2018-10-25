@@ -3935,13 +3935,13 @@ data-urls@^1.0.0:
     whatwg-mimetype "^2.1.0"
     whatwg-url "^7.0.0"
 
-"date-fns-v1@npm:date-fns@^1", date-fns@^1.27.2:
+"date-fns-v1@npm:date-fns@^1.0.0", "date-fns@^1.0.0 || ^2.0.0", date-fns@^1.27.2:
   version "1.29.0"
   resolved "https://registry.yarnpkg.com/date-fns/-/date-fns-1.29.0.tgz#12e609cdcb935127311d04d33334e2960a2a54e6"
 
-"date-fns-v2@npm:date-fns@^2":
-  version "2.0.0-alpha.22"
-  resolved "https://registry.yarnpkg.com/date-fns/-/date-fns-2.0.0-alpha.22.tgz#c65f5dd7e959c59f8ea5591e458afc76a2a0d8d0"
+"date-fns-v2@npm:date-fns@^2.0.0":
+  version "2.0.0-alpha.24"
+  resolved "https://registry.yarnpkg.com/date-fns/-/date-fns-2.0.0-alpha.24.tgz#2988c137c72275af29d7d21cc53eb52b3a8c2586"
 
 date-now@^0.1.4:
   version "0.1.4"

@@ -1,5 +1,9 @@
-// eslint-disable-next-line import/no-extraneous-dependencies
-const { version } = require('date-fns/package.json');
+let version;
+try {
+  ({ version } = require('date-fns/package.json'));
+} catch {
+  version = '';
+}
 
 const MAJOR_VERSION = Number(version.split('.')[0]);
 
