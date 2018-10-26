@@ -5,7 +5,17 @@ import { colors, fonts, fontSizes, boxShadows } from '../theme';
 
 const Button = React.forwardRef(
   (
-    { disabled, kind, outline = true, light = false, className, ...otherProps },
+    {
+      disabled,
+      kind,
+      outline = true,
+      light = false,
+      round = false,
+      full = false,
+      className,
+      children,
+      ...otherProps
+    },
     ref,
   ) => (
     <button
@@ -16,13 +26,17 @@ const Button = React.forwardRef(
         styles.button,
         kind && kinds[kind],
         kind && light && lightKinds[kind],
+        full && styles.full,
+        round && styles.round,
         disabled && styles.disabled,
         !outline && styles.noOutline,
         light && styles.light,
         className,
       )}
       {...otherProps}
-    />
+    >
+      <span>{children}</span>
+    </button>
   ),
 );
 
@@ -30,6 +44,8 @@ Button.propTypes = {
   disabled: PropTypes.bool,
   outline: PropTypes.bool,
   light: PropTypes.bool,
+  round: PropTypes.bool,
+  full: PropTypes.bool,
   kind: PropTypes.oneOf(['primary', 'secondary', 'risky', 'fatal']),
 };
 
@@ -41,15 +57,19 @@ export default Button;
 
 const styles = StyleSheet.create({
   button: {
+    alignItems: 'center',
     background: '#FFF',
     border: `1px solid #D2D2D2`,
     borderRadius: 3,
     color: '#555',
+    display: 'inline-flex',
+    justifyContent: 'center',
     cursor: 'pointer',
     fontFamily: fonts.normal,
     fontSize: fontSizes.normal,
     minWidth: 0,
     padding: '8px 16px',
+    textAlign: 'center',
     transition: 'all .2s',
     '&:hover': {
       background: '#FAFAFA',
@@ -86,6 +106,24 @@ const styles = StyleSheet.create({
     '&, &:focus, &:hover': {
       background: 'transparent',
     },
+  },
+  round: {
+    padding: 8,
+    borderRadius: '100%',
+
+    '&:after': {
+      content: "''",
+      opacity: 0.5,
+      height: 0,
+      paddingTop: '100%',
+      width: '100%',
+      marginLeft: '-100%',
+      zIndex: -1,
+    },
+  },
+  full: {
+    display: 'flex',
+    width: '100%',
   },
 });
 

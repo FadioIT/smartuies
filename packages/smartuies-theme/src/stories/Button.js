@@ -11,6 +11,8 @@ storiesOf('Button', module)
       disabled={boolean('disabled', false)}
       outline={boolean('outline', true)}
       light={boolean('light', false)}
+      round={boolean('round', false)}
+      full={boolean('full', false)}
       kind={
         select('kind', {
           '': '',
