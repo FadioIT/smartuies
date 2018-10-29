@@ -1,9 +1,36 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 
 import Dialog, { dialog, confirm, alert } from '../components/Dialog';
 import Button from '../components/Button';
+
+class DialogStory extends React.Component {
+  static propTypes = {
+    openDialog: PropTypes.func.isRequired,
+    children: PropTypes.func.isRequired,
+  };
+
+  openDialog = () => {
+    const [promise, close] = this.props.openDialog();
+    this.promise = promise;
+    this.close = close;
+    this.promise.then(action('then')).then(() => {
+      delete this.promise;
+    });
+  };
+
+  componentWillUnmount() {
+    if (this.promise) {
+      this.close();
+    }
+  }
+
+  render() {
+    return this.props.children({ openDialog: this.openDialog });
+  }
+}
 
 storiesOf('Dialog', module)
   .add('basic example', () => (
@@ -13,38 +40,38 @@ storiesOf('Dialog', module)
     </Dialog>
   ))
   .add('dialog async function', () => (
-    <Button
-      onClick={() =>
+    <DialogStory
+      openDialog={() =>
         dialog(
           'Dialog title',
           null,
           'This is a dialog box that was opened using the "dialog" function.',
           [{ label: 'close me', kind: 'primary' }],
-        ).then(action('then'))
+        )
       }
     >
-      Open dialog
-    </Button>
+      {({ openDialog }) => <Button onClick={openDialog}>Open dialog</Button>}
+    </DialogStory>
   ))
   .add('confirm async function', () => (
-    <Button
-      onClick={() =>
+    <DialogStory
+      openDialog={() =>
         confirm(
           'This is a confirmation dialog box that was opened using the "confirm" function.',
-        ).then(action('then'))
+        )
       }
     >
-      Open confirm
-    </Button>
+      {({ openDialog }) => <Button onClick={openDialog}>Open confirm</Button>}
+    </DialogStory>
   ))
   .add('alert async function', () => (
-    <Button
-      onClick={() =>
+    <DialogStory
+      openDialog={() =>
         alert(
           'This is an alert dialog box that was opened using the "alert" function.',
-        ).then(action('then'))
+        )
       }
     >
-      Open alert
-    </Button>
+      {({ openDialog }) => <Button onClick={openDialog}>Open alert</Button>}
+    </DialogStory>
   ));

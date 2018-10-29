@@ -35,8 +35,12 @@ export default Dialog;
 export const dialog = (title, icon, message, options) => {
   const node = document.createElement('div');
   document.body.appendChild(node);
+  const close = () => {
+    ReactDOM.unmountComponentAtNode(node);
+    document.body.removeChild(node);
+  };
 
-  const result = new Promise(resolve => {
+  const promise = new Promise(resolve => {
     ReactDOM.render(
       <Dialog
         title={title}
@@ -51,12 +55,9 @@ export const dialog = (title, icon, message, options) => {
       </Dialog>,
       node,
     );
-  }).then(() => {
-    ReactDOM.unmountComponentAtNode(node);
-    document.body.removeChild(node);
-  });
+  }).then(close);
 
-  return result;
+  return [promise, close];
 };
 
 export const confirm = text =>
