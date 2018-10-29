@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { CollapsiblePanel, themeComponent } from '@fadioit/smartuies';
+import { Spring } from 'react-spring';
 import ChevronUpIcon from './icons/ChevronUp';
 import { StyleSheet, css } from '../utils/styleUtils';
 import { boxShadows } from '../theme';
@@ -32,11 +33,18 @@ renderButton.propTypes = {
   className: PropTypes.any,
 };
 
-const renderPanel = ({ children }) => (
-  <div className={styles.panel}>{children}</div>
+const renderPanel = ({ children, open }) => (
+  <Spring to={{ height: open ? 'auto' : 0, opacity: open ? 1 : 0 }}>
+    {transitionStyles => (
+      <div className={styles.drawer} style={transitionStyles}>
+        <div className={styles.panel}>{children}</div>
+      </div>
+    )}
+  </Spring>
 );
 renderPanel.propTypes = {
   children: PropTypes.any,
+  open: PropTypes.bool.isRequired,
 };
 
 export const theme = { renderButton, renderPanel };
@@ -71,6 +79,9 @@ const styles = StyleSheet.create({
     transform: 'rotate(0)',
   },
 
+  drawer: {
+    overflow: 'hidden',
+  },
   panel: {
     padding: '8px 16px',
   },
