@@ -3,11 +3,11 @@ import PropTypes from 'prop-types';
 import { Modal, themeComponent } from '@fadioit/smartuies';
 import { StyleSheet } from '../utils/styleUtils';
 
-const renderModal = ({ onKeyDown, onClose, children }) => (
+const renderModal = ({ onKeyDown, onClick, children }) => (
   <div
     className={styles.overlay}
     onKeyDown={onKeyDown}
-    onClick={onClose}
+    onClick={onClick}
     role="tree"
     tabIndex={0}
   >
@@ -19,7 +19,7 @@ const renderModal = ({ onKeyDown, onClose, children }) => (
 
 renderModal.propTypes = {
   children: PropTypes.any,
-  onClose: PropTypes.func,
+  onClick: PropTypes.func,
   onKeyDown: PropTypes.func.isRequired,
 };
 

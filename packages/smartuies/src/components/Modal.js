@@ -9,6 +9,7 @@ class Modal extends React.Component {
     children: childrenPropType,
     renderModal: PropTypes.func.isRequired,
     onClose: PropTypes.func,
+    onClick: PropTypes.func,
     onKeyDown: PropTypes.func,
     isOpen: PropTypes.bool,
     rootNode: PropTypes.object,
@@ -55,6 +56,16 @@ class Modal extends React.Component {
     }
   };
 
+  onClick = e => {
+    if (e.currentTarget === e.target && this.props.onClose) {
+      this.props.onClose();
+    }
+
+    if (this.props.onClick) {
+      this.onClick(e);
+    }
+  };
+
   render() {
     const { children, renderModal, isOpen, ...otherProps } = this.props;
     const { containerNode } = this;
@@ -66,6 +77,7 @@ class Modal extends React.Component {
     return ReactDOM.createPortal(
       renderModal({
         onKeyDown: this.onKeyDown,
+        onClick: this.onClick,
         ...otherProps,
         children: renderChildren(children, otherProps),
       }),
