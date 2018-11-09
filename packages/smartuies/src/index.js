@@ -7,3 +7,4 @@ export { default as DropDownButton } from './components/DropDownButton';
 export { default as Modal } from './components/Modal';
 export { default as PopUpAnchor } from './components/PopUpAnchor';
 export { default as TabPanel } from './components/TabPanel';
+export { default as ClickOut } from './components/ClickOut';
