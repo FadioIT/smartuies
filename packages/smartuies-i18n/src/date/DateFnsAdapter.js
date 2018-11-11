@@ -1,5 +1,6 @@
 let version;
 try {
+  // eslint-disable-next-line
   ({ version } = require('date-fns/package.json'));
 } catch {
   version = '';
