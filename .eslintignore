@@ -1,3 +1,5 @@
-/packages/*/build
-/packages/*/node_modules
 !.storybook
+build
+coverage
+node_modules
+public
