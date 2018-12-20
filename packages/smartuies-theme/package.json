@@ -7,7 +7,8 @@
   "scripts": {
     "test": "echo \"Warning: no test specified\" && exit 0",
     "build": "[ -e build ] && rm -rf build; mkdir build; babel src --out-dir build",
-    "storybook": "start-storybook -p 9001 -c .storybook"
+    "storybook:develop": "start-storybook -p 9001 -c .storybook",
+    "storybook:build": "build-storybook -c .storybook -o public"
   },
   "dependencies": {
     "@fadioit/smartuies": "0.1.0",

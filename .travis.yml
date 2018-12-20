@@ -1,0 +1,26 @@
+language: node_js
+
+node_js:
+  - '8'
+
+before_install:
+  - curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version 1.9.4
+  - export PATH=$HOME/.yarn/bin:$PATH
+  - lerna bootstrap
+
+cache:
+  yarn: true
+  directories:
+    - node_modules # This will tell Travis CI to cache the dependencies
+
+jobs:
+  include:
+    - stage: deploy
+      script: bash ./scripts/deploy.sh
+    - stage: test
+      script: yarn test
+
+stages:
+  - test
+  - name: deploy
+    if: branch = master
