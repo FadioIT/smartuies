@@ -11,7 +11,7 @@
     "storybook": "start-storybook -p 9001 -c .storybook"
   },
   "dependencies": {
-    "@fadioit/smartuies-i18n": "0.1.0"
+    "@fadioit/smartuies-i18n": "^0.1.0"
   },
   "peerDependencies": {
     "prop-types": "^15.6.2",

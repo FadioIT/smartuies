@@ -11,7 +11,7 @@
     "storybook:build": "build-storybook -c .storybook -o public"
   },
   "dependencies": {
-    "@fadioit/smartuies": "0.1.0",
+    "@fadioit/smartuies": "^0.1.0",
     "react-spring": "^5.9.2"
   },
   "peerDependencies": {
