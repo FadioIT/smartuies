@@ -97,7 +97,9 @@ const openModal = (rootNode, containerNode) => {
 };
 
 const closeModal = (rootNode, containerNode) => {
-  document.body.removeChild(containerNode);
+  if (document.body.contains(containerNode)) {
+    document.body.removeChild(containerNode);
+  }
 
   if (rootNode) {
     aria.showNode(rootNode, containerNode);
