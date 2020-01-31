@@ -61,6 +61,7 @@ class PopUpAnchor extends React.Component {
         ]),
       }),
     ]),
+    popUpSpacing: PropTypes.number,
 
     anchor: PropTypes.element.isRequired,
     children: PropTypes.node,
@@ -74,6 +75,7 @@ class PopUpAnchor extends React.Component {
       horizontal: POSITIONS.LEFT,
       vertical: POSITIONS.BELOW,
     },
+    popUpSpacing: 16,
   };
 
   state = {
@@ -119,6 +121,7 @@ class PopUpAnchor extends React.Component {
   componentDidMount() {
     if (window) {
       window.addEventListener('resize', this.windowResizeHandler);
+      window.addEventListener('scroll', this.scrollHandler, true);
     }
     this.updatePopUp();
   }
@@ -127,6 +130,7 @@ class PopUpAnchor extends React.Component {
     document.body.removeChild(this.popUpNode);
     if (window) {
       window.removeEventListener('resize', this.windowResizeHandler);
+      window.removeEventListener('scroll', this.scrollHandler, true);
     }
   }
 
@@ -139,14 +143,17 @@ class PopUpAnchor extends React.Component {
       popUpHeightMatchesAnchorHeight,
       popUpWidthMatchesAnchorWidth,
       displayPopUp,
+      popUpSpacing,
     } = this.props;
     const { horizontalPosition, verticalPosition } = this.state;
 
+    const { popUpNode } = this;
+    popUpNode.style.display = 'none';
     // eslint-disable-next-line react/no-find-dom-node
     const anchorNode = ReactDOM.findDOMNode(this);
     const anchorBounds = anchorNode.getBoundingClientRect();
+    const scroll = getComputedScroll(anchorNode);
 
-    const { popUpNode } = this;
     popUpNode.style.display = displayPopUp ? null : 'none';
     popUpNode.style.position = 'absolute';
 
@@ -163,18 +170,23 @@ class PopUpAnchor extends React.Component {
       height: popupNodeHeight,
     } = popUpNode.getBoundingClientRect();
 
+    const nodeBounds = {
+      left: anchorBounds.left,
+      top: anchorBounds.top,
+    };
+
     switch (horizontalPosition) {
       case POSITIONS.BEFORE:
-        this.popUpNode.style.left = `${anchorBounds.left - popupNodeWidth}px`;
+        nodeBounds.left = anchorBounds.left - popupNodeWidth;
         break;
       case POSITIONS.LEFT:
-        this.popUpNode.style.left = `${anchorBounds.left}px`;
+        nodeBounds.left = anchorBounds.left;
         break;
       case POSITIONS.RIGHT:
-        this.popUpNode.style.left = `${anchorBounds.right - popupNodeWidth}px`;
+        nodeBounds.left = anchorBounds.right - popupNodeWidth;
         break;
       case POSITIONS.AFTER:
-        this.popUpNode.style.left = `${anchorBounds.right}px`;
+        nodeBounds.left = anchorBounds.right;
         break;
       default:
         break;
@@ -182,20 +194,36 @@ class PopUpAnchor extends React.Component {
 
     switch (verticalPosition) {
       case POSITIONS.ABOVE:
-        this.popUpNode.style.top = `${anchorBounds.top - popupNodeHeight}px`;
+        nodeBounds.top = anchorBounds.top - popupNodeHeight;
         break;
       case POSITIONS.TOP:
-        this.popUpNode.style.top = `${anchorBounds.top}px`;
+        nodeBounds.top = anchorBounds.top;
         break;
       case POSITIONS.BOTTOM:
-        this.popUpNode.style.top = `${anchorBounds.bottom - popupNodeHeight}px`;
+        nodeBounds.top = anchorBounds.bottom - popupNodeHeight;
         break;
       case POSITIONS.BELOW:
-        this.popUpNode.style.top = `${anchorBounds.bottom}px`;
+        nodeBounds.top = anchorBounds.bottom;
         break;
       default:
         break;
     }
+
+    if (
+      document.documentElement.clientHeight <
+      popUpSpacing +
+        popupNodeHeight +
+        nodeBounds.top -
+        (scroll.height - scroll.top)
+    ) {
+      nodeBounds.top +=
+        document.documentElement.clientHeight -
+        (popUpSpacing + popupNodeHeight + nodeBounds.top) +
+        (scroll.height - scroll.top);
+    }
+
+    this.popUpNode.style.top = `${nodeBounds.top}px`;
+    this.popUpNode.style.left = `${nodeBounds.left}px`;
   }
 
   render() {
@@ -212,10 +240,43 @@ class PopUpAnchor extends React.Component {
   }
 
   windowResizeHandler = () => {
-    this.forceUpdate();
+    this.updatePopUp();
+  };
+
+  scrollHandler = event => {
+    if (!this.popUpNode.contains(event.target)) {
+      this.updatePopUp();
+    }
   };
 }
 
 PopUpAnchor.positions = POSITIONS;
 
 export default PopUpAnchor;
+
+const getComputedScroll = domNode => {
+  const scroll = {
+    top: 0,
+    left: 0,
+    height: 0,
+    width: 0,
+  };
+
+  while (domNode && domNode !== document) {
+    const { overflowY, overflowX } = window.getComputedStyle(domNode);
+
+    if (overflowY !== 'visible') {
+      scroll.top += domNode.scrollTop;
+      scroll.height += domNode.scrollHeight - domNode.clientHeight;
+    }
+
+    if (overflowX !== 'visible') {
+      scroll.left += domNode.scrollLeft;
+      scroll.width += domNode.scrollWidth - domNode.clientWidth;
+    }
+
+    domNode = domNode.parentNode;
+  }
+
+  return scroll;
+};
