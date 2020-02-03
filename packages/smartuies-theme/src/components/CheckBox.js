@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { CheckBox, themeComponent } from '@fadioit/smartuies';
 import { StyleSheet, css } from '../utils/styleUtils';
 import { colors, mixins } from '../theme';
@@ -38,6 +39,14 @@ const children = ({
       />
     </label>
   );
+};
+
+children.propTypes = {
+  id: PropTypes.string,
+  checked: PropTypes.bool,
+  disabled: PropTypes.bool,
+  onChange: PropTypes.func,
+  inputRef: PropTypes.object,
 };
 
 export const theme = { children };

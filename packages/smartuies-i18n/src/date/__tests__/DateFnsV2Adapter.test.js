@@ -1,7 +1,7 @@
-import dateFns from 'date-fns-v2';
-import DateFnsV1Adapter from '../DateFnsV2Adapter';
+import * as dateFns from 'date-fns-v2';
+import DateFnsV2Adapter from '../DateFnsV2Adapter';
 
-const adapter = new DateFnsV1Adapter({ locale: 'en', dateFns });
+const adapter = new DateFnsV2Adapter({ locale: 'en', dateFns });
 const date = new Date('1985-02-01').getTime();
 
 describe('formatDay', () => {

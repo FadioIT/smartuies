@@ -95,7 +95,6 @@ class DropDownButton extends React.Component {
     const {
       children,
       renderButton,
-      renderDropDown,
       focusDropDown,
       closable,
       ...otherProps

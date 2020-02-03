@@ -23,7 +23,7 @@ const Ellipsis = React.forwardRef(
 Ellipsis.propTypes = {
   children: PropTypes.any,
   className: classNamePropType,
-  width: PropTypes.number,
+  size: PropTypes.number,
 };
 
 export default Ellipsis;

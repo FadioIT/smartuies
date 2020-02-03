@@ -5,7 +5,6 @@ import { StyleSheet, classNamePropType } from '../utils/styleUtils';
 
 const SVGIcon = ({
   className,
-  style,
   viewSize = 24,
   viewWidth = viewSize,
   viewHeight = viewSize,

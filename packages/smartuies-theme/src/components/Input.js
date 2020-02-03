@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { StyleSheet, css } from '../utils/styleUtils';
 import { colors, fonts, fontSizes } from '../theme';
 
@@ -12,6 +13,11 @@ const Input = React.forwardRef(
     />
   ),
 );
+
+Input.propTypes = {
+  className: PropTypes.string,
+  disabled: PropTypes.bool,
+};
 
 export default Input;
 
@@ -35,9 +41,7 @@ const styles = StyleSheet.create({
     '&:focus': {
       outline: 'none',
       background: '#FFF',
-      boxShadow: `0 0 0 1px ${colors.primaryLighter}, inset 0 0 0 1px ${
-        colors.primaryLighter
-      }`,
+      boxShadow: `0 0 0 1px ${colors.primaryLighter}, inset 0 0 0 1px ${colors.primaryLighter}`,
     },
   },
 });
