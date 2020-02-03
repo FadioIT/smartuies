@@ -5,9 +5,13 @@ import { renderChildren, childrenPropType } from '../utils';
 class CollapsiblePanel extends React.Component {
   static propTypes = {
     children: childrenPropType.isRequired,
-    renderButton: PropTypes.func.isRequired,
+    renderButton: PropTypes.func,
     renderPanel: PropTypes.func.isRequired,
     onToggle: PropTypes.func,
+  };
+
+  static defaultProps = {
+    renderButton: () => null,
   };
 
   state = { open: true };
