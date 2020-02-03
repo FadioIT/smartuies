@@ -5,7 +5,7 @@
   ],
   "scripts": {
     "build": "lerna run build",
-    "watch": "yarn ws:core watch & yarn ws:i18n watch & yarn ws:theme storybook",
+    "watch": "yarn ws:core watch & yarn ws:i18n watch & yarn ws:theme storybook:develop",
     "validate": "yarn lint && yarn test",
     "test": "lerna exec --concurrency 1 -- yarn test",
     "lint": "eslint ./ --fix",
