@@ -82,6 +82,7 @@ TranslateTransition.propTypes = {
       y: PropTypes.oneOf([DIRECTIONS.TOP, DIRECTIONS.BOTTOM]),
     }),
   ]),
+  children: PropTypes.node,
 };
 
 TranslateTransition.defaultProps = {

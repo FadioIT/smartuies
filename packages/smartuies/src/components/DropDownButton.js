@@ -9,6 +9,7 @@ class DropDownButton extends React.Component {
     children: childrenPropType.isRequired,
     renderButton: PropTypes.func.isRequired,
     dropDownRef: refPropType,
+    buttonRef: refPropType,
     onToggle: PropTypes.func,
     onKeyDown: PropTypes.func,
     focusDropDown: PropTypes.bool,
@@ -24,7 +25,7 @@ class DropDownButton extends React.Component {
 
   dropDownRef = this.props.dropDownRef || React.createRef();
 
-  buttonRef = React.createRef();
+  buttonRef = this.props.buttonRef || React.createRef();
 
   onToggle = () => {
     this.setState(
@@ -94,7 +95,6 @@ class DropDownButton extends React.Component {
     const {
       children,
       renderButton,
-      renderDropDown,
       focusDropDown,
       closable,
       ...otherProps

@@ -47,6 +47,8 @@ Button.propTypes = {
   round: PropTypes.bool,
   full: PropTypes.bool,
   kind: PropTypes.oneOf(['primary', 'secondary', 'risky', 'fatal']),
+  className: PropTypes.string,
+  children: PropTypes.node,
 };
 
 Button.defaultProps = {

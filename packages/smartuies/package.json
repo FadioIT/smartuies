@@ -7,8 +7,7 @@
   "scripts": {
     "test": "jest",
     "build": "[ -e build ] && rm -rf build; mkdir build; babel src --out-dir build",
-    "watch": "babel src --watch --out-dir build",
-    "storybook": "start-storybook -p 9001 -c .storybook"
+    "watch": "babel src --watch --out-dir build"
   },
   "dependencies": {
     "@fadioit/smartuies-i18n": "^0.1.0"

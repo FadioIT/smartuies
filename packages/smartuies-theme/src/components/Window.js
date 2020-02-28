@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { StyleSheet } from '../utils/styleUtils';
 import { colors, fontSizes } from '../theme';
 
@@ -11,6 +12,12 @@ const Window = React.forwardRef(({ head, children, foot }, ref) => (
     </div>
   </div>
 ));
+
+Window.propTypes = {
+  head: PropTypes.node,
+  children: PropTypes.node,
+  foot: PropTypes.node,
+};
 
 export default Window;
 
